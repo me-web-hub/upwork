@@ -6,7 +6,7 @@ window.SERVER_URL = "http://146.19.170.48";
 window.AUTO_ENABLED = 1;
 window.PRE = [1, 2];
 
-window.CHANNELS = [1, 2, 3, 4];
+window.CHANNELS = [1];
 window.CHANNEL_INDEX = 0;
 window.AUTO_INTERVAL = 5000;
 
