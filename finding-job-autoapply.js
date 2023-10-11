@@ -412,6 +412,11 @@ window.getProposalTypes = function (jobTitle, jobDescription, checkBan) {
 			{ preference: 1, title: "shopify", profile: "ecommerce", proposalId: "shopify-8", channel: 0, priority: 3 },
 			{ preference: 2, title: "shopify", profile: "shopify", proposalId: "shopify-7", channel: 0, priority: 2 },
 		];
+	if (jobTitle.includes("bubble"))
+		return [
+			{ preference: 1, title: "shopify", profile: "ecommerce", proposalId: "bubble-1", channel: 0, priority: 1 },
+			{ preference: 2, title: "shopify", profile: "shopify", proposalId: "bubble-2", channel: 0, priority: 1 },
+		];
 	if (jobTitle.includes("wordpress") || jobTitle.includes("word press") || jobTitle.includes("woocommerce") || ` ${jobTitle} `.includes(" divi ") || jobTitle.includes("elementor") || jobTitle.includes("wix"))
 		return [
 			{ preference: 1, title: "wordpress", profile: "laravel-ruby", proposalId: "wordpress-2", channel: 0, priority: 3 },
@@ -544,6 +549,11 @@ window.getProposalTypes = function (jobTitle, jobDescription, checkBan) {
 	|| jobTitle.includes("supabase") || jobTitle.includes("restaurant") || jobTitle.includes("python") || jobTitle.includes("django") || jobTitle.includes("typescript") ||jobTitle.includes("css") || jobTitle.includes("frontend")) {
 		if (jobDescription) {
 			jobDescription = jobDescription.replaceAll(/[\,\/\-\~\!\?–]/g, " ").replace(/\.+$/, "").replaceAll(/\s\s+/g, " ").toLowerCase();
+			if (jobDescription.includes("bubble"))
+				return [
+					{ preference: 1, title: "shopify", profile: "ecommerce", proposalId: "bubble-1", channel: 0, priority: 1 },
+					{ preference: 2, title: "shopify", profile: "shopify", proposalId: "bubble-2", channel: 0, priority: 1 },
+				];
 			if (jobDescription.includes("webflow"))
 				return [
 					{ preference: 1, title: "webflow", profile: "webflow-2", proposalId: "webflow-8", channel: 0, priority: 3 },
@@ -649,7 +659,7 @@ window.getProposalTypes = function (jobTitle, jobDescription, checkBan) {
 					{ preference: 1, title: "frontend", profile: "frontend-2", proposalId: "frontend-8", channel: 0, priority: 3 },
 					{ preference: 2, title: "design", profile: "frontend", proposalId: "frontend-7", channel: 0, priority: 3 }
 				];
-			if (jobDescription.includes("web development") || jobDescription.includes("website development") || jobDescription.includes("webpage development"))
+			if (jobDescription.includes("web development") || jobDescription.includes("website development") || jobDescription.includes("webpage development") || jobDescription.includes("saas") )
 				return [
 					{ preference: 1, title: "node", profile: "node-php", proposalId: "full-stack-2", channel: 0, priority: 3 },
 					{ preference: 2, title: "fullstack", profile: "laravel-ruby", proposalId: "full-stack-5", channel: 0, priority: 2 }
@@ -1862,4 +1872,63 @@ I look forward to the possibility of working with you.
 
 Sincerely.`,
 
+	"bubble-1": `Hi there, 👋
+
+I hope you're doing well. I'm a professional Bubble.io developer with extensive experience in building robust and scalable web applications. I have a strong grasp of the Bubble.io platform, and I'm confident in my ability to deliver high-quality solutions to meet your specific requirements.
+
+Past Projects:
+
+Project 1: https://scottlaidler.com/ 
+
+- I developed a dynamic e-commerce platform using Bubble.io, integrating payment gateways and ensuring a smooth user experience.
+
+Project 2: https://www.danielgrindrod.com/ 
+
+- I created a collaboration tool for a remote team, implementing real-time chat features, task management, and file sharing functionalities.
+
+With my background in Bubble.io development and my passion for delivering outstanding results, I'm confident that I can contribute to your project's success. 
+
+Here's what you can expect from me:
+
+Expertise in Bubble.io: I am well-versed in utilizing the powerful features of Bubble.io to create intuitive and visually appealing web applications.
+
+Custom Solutions: I strive to understand your unique business needs and tailor the applications accordingly, ensuring they align perfectly with your objectives.
+
+Responsive Design: I will create web applications that are mobile-friendly, offering an optimal user experience across all devices.
+
+Timely Delivery: I am committed to meeting project milestones and delivering the final product within the agreed-upon timeframe.
+
+I would love to discuss your project further and explore how I can assist you in achieving your goals. Please feel free to reach out to me, and let's schedule a call at your convenience.
+
+Looking forward to hearing from you!
+
+Best regards`,
+
+	"bubble-2": `Hi there,
+
+I hope this message finds you well. I am an experienced Bubble.io developer with a strong background in web application development. I have a passion for creating scalable and intuitive solutions that meet my clients' unique needs.
+
+Past Projects:
+
+https://alexcattoni.com
+
+https://willericksson.com
+
+✨✨✨✨✨✨✨ What I offer:
+
+Proficiency in Bubble.io development, allowing me to swiftly transform your ideas into functional applications.
+
+Strong problem-solving skills to address complex requirements and deliver innovative solutions.
+
+Attention to detail and a focus on providing an exceptional user experience.
+
+Timely delivery, ensuring that your project stays on track and meets deadlines.
+
+Commitment to open communication and collaboration throughout the development process.
+
+I would love to learn more about your project and discuss how I can contribute to its success. Feel free to connect with me to schedule a call or further discuss your requirements. You can find more information about my skills and experience on my Upwork profile: [Your Upwork Profile URL]
+
+Looking forward to hearing from you!
+
+Best regards`
 }
