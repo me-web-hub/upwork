@@ -6,7 +6,7 @@ window.SERVER_URL = "http://146.19.170.48";
 window.AUTO_ENABLED = 1;
 window.PRE = [1, 2];
 
-window.CHANNELS = [1];
+window.CHANNELS = [1, 2, 3, 4, 5];
 window.CHANNEL_INDEX = 0;
 window.AUTO_INTERVAL = 5000;
 
@@ -381,7 +381,7 @@ window.checkTitleBan = function (jobTitleLowerCase) {
 	if (jobTitleLowerCase.startsWith("do not apply ") || jobTitleLowerCase.startsWith("[$"))
 		return jobTitleLowerCase;
 	const banList = [/* " tutor", " teach", " guide", " assist", " consult", " support", " lead", "troubleshoot",*/
-		" ionic ", " unity ", " unreal ", " zoho ", " youtube ", " tiktok ", " reddit ", " spotify ", " facebook ", " linkedin ", " twitter ", " instagram ", " pinterest ", " whatsapp ", /*" social",*/ 
+		" ionic ", " Al Python Model ", " unity ", " unreal ", " zoho ", " youtube ", " tiktok ", " reddit ", " spotify ", " facebook ", " linkedin ", " twitter ", " instagram ", " pinterest ", " whatsapp ", /*" social",*/ 
 		" airtable ", " notion ", " salesforce ", " squarespace ", " zenddesk ", " hubspot ",
 		" filemaker ", " sharepoint ", " moodle ", " odoo ", " kajabi ", " thinkific ",
 		" graphic design", " graphite design", "webassembly", "web assembly",
@@ -395,22 +395,32 @@ window.checkTitleBan = function (jobTitleLowerCase) {
 	return false;
 }
 
+window.checkDescriptionBan = function (jobDescriptionLowerCase) {
+	if ((jobDescriptionLowerCase.includes("telegram") || jobDescriptionLowerCase.includes("tel")) && (jobDescriptionLowerCase.includes("t.me") || jobDescriptionLowerCase.includes("@"))) return true;
+	if (jobDescriptionLowerCase.includes("@gmail")) return true;
+		
+	return false;
+}
+
 window.getProposalTypes = function (jobTitle, jobDescription, checkBan) {
 	if (!jobTitle) {
 		console.log("jobTitle is null.");
 		return;
 	}
 	jobTitle = jobTitle.replaceAll(/[\,\/\-\~\!\?–]/g, " ").replace(/\.+$/, "").replaceAll(/\s\s+/g, " ").toLowerCase();
+	jobDescription = jobDescription.replaceAll(/[\,\/\-\~\!\?–]/g, " ").replace(/\.+$/, "").replaceAll(/\s\s+/g, " ").toLowerCase();
+
 	if (checkBan && checkTitleBan(jobTitle)) return;
+	if (checkBan && checkDescriptionBan(jobDescription)) return;
 	if (jobTitle.includes("webflow"))
 		return [
-			{ preference: 1, title: "webflow", profile: "webflow-2", proposalId: "webflow-8", channel: 0, priority: 3 },
-			{ preference: 2, title: "webflow", profile: "webflow", proposalId: "webflow-7", channel: 0, priority: 2 },
+			{ preference: 1, title: "webflow", profile: "webflow-2", proposalId: "webflow-8", channel: 0, priority: 1 },
+			{ preference: 2, title: "webflow", profile: "webflow", proposalId: "webflow-7", channel: 0, priority: 1 },
 		];
 	if (jobTitle.includes("shopify"))
 		return [
-			{ preference: 1, title: "shopify", profile: "ecommerce", proposalId: "shopify-8", channel: 0, priority: 3 },
-			{ preference: 2, title: "shopify", profile: "shopify", proposalId: "shopify-7", channel: 0, priority: 2 },
+			{ preference: 1, title: "shopify", profile: "ecommerce", proposalId: "shopify-8", channel: 0, priority: 1 },
+			{ preference: 2, title: "shopify", profile: "shopify", proposalId: "shopify-7", channel: 0, priority: 1 },
 		];
 	if (jobTitle.includes("bubble"))
 		return [
@@ -419,12 +429,12 @@ window.getProposalTypes = function (jobTitle, jobDescription, checkBan) {
 		];
 	if (jobTitle.includes("wordpress") || jobTitle.includes("word press") || jobTitle.includes("woocommerce") || ` ${jobTitle} `.includes(" divi ") || jobTitle.includes("elementor") || jobTitle.includes("wix"))
 		return [
-			{ preference: 1, title: "wordpress", profile: "laravel-ruby", proposalId: "wordpress-2", channel: 0, priority: 3 },
-			{ preference: 2, title: "wordpress", profile: "wp-django", proposalId: "wordpress-1", channel: 0, priority: 2 },
+			{ preference: 1, title: "wordpress", profile: "laravel-ruby", proposalId: "wordpress-2", channel: 0, priority: 1 },
+			{ preference: 2, title: "wordpress", profile: "wp-django", proposalId: "wordpress-1", channel: 0, priority: 1 }
 		];
 	if (jobTitle.includes("commerce"))
 		return [
-			{ preference: 1, title: "ecommerce", profile: "shopify", proposalId: "ecommerce-8", channel: 0, priority: 2 },
+			{ preference: 1, title: "ecommerce", profile: "shopify", proposalId: "ecommerce-8", channel: 0, priority: 1 },
 			{ preference: 2, title: "ecommerce", profile: "ecommerce", proposalId: "ecommerce-7", channel: 0, priority: 1 },
 		];
 	if (jobTitle.includes("laravel") || jobTitle.includes("php") || jobTitle.includes("codeigniter") || jobTitle.includes("cpanel"))
@@ -449,7 +459,7 @@ window.getProposalTypes = function (jobTitle, jobDescription, checkBan) {
 		return [
 			{ preference: 1, title: "ruby on rails", profile: "laravel-ruby", proposalId: "ruby-1", channel: 0, priority: 1 }
 		];
-	if (` ${jobTitle} `.includes(" spring ") || jobTitle.includes("java") && (jobTitle.includes("web") || jobTitle.includes("backend") || jobTitle.includes("back end") || jobTitle.includes("fullstack") || jobTitle.includes("full stack")))
+	if (` ${jobTitle} `.includes(" spring ") || jobTitle.includes("java"))
 		return [
 			{ preference: 1, title: "java spring", profile: "java-cs", proposalId: "java-spring-1", channel: 0, priority: 2 }
 		];
@@ -466,6 +476,11 @@ window.getProposalTypes = function (jobTitle, jobDescription, checkBan) {
 		return [
 			{ preference: 1, title: "react", profile: "node-php", proposalId: "react-5", channel: 0, priority: 2 },
 			{ preference: 2, title: "fullstack", profile: "javascript", proposalId: "react-4", channel: 0, priority: 2 },
+		];
+	if (jobTitle.includes("angular") || jobTitle.includes("mean"))
+		return [
+			{ preference: 1, title: "vue", profile: "node-php", proposalId: "angular-1", channel: 0, priority: 2 },
+			{ preference: 2, title: "fullstack", profile: "javascript", proposalId: "angular-2", channel: 0, priority: 2 },
 		];
 	if (jobTitle.includes("vue") || jobTitle.includes("nuxt") || jobTitle.includes("mevn"))
 		return [
@@ -495,6 +510,22 @@ window.getProposalTypes = function (jobTitle, jobDescription, checkBan) {
 	if (jobTitle.includes("chrome") && jobTitle.includes("extension") || jobTitle.includes("shopify extension"))
 		return [
 			{ preference: 1, title: "chrome extension", profile: "frontend", proposalId: "chrome-extension-7", channel: 0, priority: 2 },
+		];
+	if (jobTitle.includes("android"))
+		return [
+			{ preference: 1, title: "android", profile: "frontend", proposalId: "android-1", channel: 0, priority: 1 },
+			{ preference: 2, title: "android", profile: "node-php", proposalId: "android-2", channel: 0, priority: 1 }
+		];
+
+	if (jobTitle.includes("flutter"))
+		return [
+			{ preference: 1, title: "android", profile: "wp-django", proposalId: "flutter-1", channel: 0, priority: 1 },
+			{ preference: 2, title: "android", profile: "frontend", proposalId: "flutter-2", channel: 0, priority: 1 }
+		];
+	if (jobTitle.includes("react native"))
+		return [
+			{ preference: 1, title: "android", profile: "laravel-ruby", proposalId: "react-native-1", channel: 0, priority: 1 },
+			{ preference: 2, title: "android", profile: "frontend-2", proposalId: "react-native-2", channel: 0, priority: 1 }
 		];
 	if (jobTitle.includes("build responsive"))
 		return [
@@ -540,15 +571,24 @@ window.getProposalTypes = function (jobTitle, jobDescription, checkBan) {
 	|| jobTitle.includes("full stack developer") || jobTitle.includes("website") || jobTitle.includes("developer") || jobTitle.includes("dashboard") 
 	|| jobTitle.includes("landing") || jobTitle.includes("portal") || jobTitle.includes("backend") || jobTitle.includes("back end") || jobTitle.includes("app") 
 	|| jobTitle.includes("web developer") || jobTitle.includes("fullstack") || jobTitle.includes("full stack") || jobTitle.includes("bug") || jobTitle.includes("fix")
-	|| jobTitle.includes("integration") || jobTitle.includes("design") || jobTitle.includes("design") || jobTitle.includes("build responsive") || jobTitle.includes("software") || jobTitle.includes("engineer") || jobTitle.includes("dapp") || jobTitle.includes("blockchain")
-	|| jobTitle.includes("build") || jobTitle.includes("responsive") || jobTitle.includes("database") || jobTitle.includes("development") || jobTitle.includes("integration") || jobTitle.includes("website") || jobTitle.includes("solidity") 
+	|| jobTitle.includes("integration") || jobTitle.includes("design") || jobTitle.includes("design") || jobTitle.includes("build responsive") || jobTitle.includes("software") 
+	|| jobTitle.includes("engineer") || jobTitle.includes("dapp") || jobTitle.includes("blockchain")
+	|| jobTitle.includes("build") || jobTitle.includes("responsive") || jobTitle.includes("database") || jobTitle.includes("development") || jobTitle.includes("integration") 
+	|| jobTitle.includes("website") || jobTitle.includes("solidity") || jobTitle.includes("web") || jobTitle.includes("freelancer")
 	|| jobTitle.includes("smart contract") || jobTitle.includes("application") || jobTitle.includes("api") || jobTitle.includes("next") || jobTitle.includes("nest")
 	|| jobTitle.includes("vue") || jobTitle.includes("react") || jobTitle.includes("angular") || jobTitle.includes("framework") || jobTitle.includes("project")
 	|| jobTitle.includes("html") || jobTitle.includes("laravel") || jobTitle.includes("ecommerce") || jobTitle.includes("nft") || jobTitle.includes("node") 
-	|| jobTitle.includes("mobile") || jobTitle.includes("webapplication") || jobTitle.includes("home page") || jobTitle.includes("wordpress") || jobTitle.includes("wp") || jobTitle.includes("dashboard") || jobTitle.includes("sql") 
-	|| jobTitle.includes("supabase") || jobTitle.includes("restaurant") || jobTitle.includes("python") || jobTitle.includes("django") || jobTitle.includes("typescript") ||jobTitle.includes("css") || jobTitle.includes("frontend")) {
+	|| jobTitle.includes("mobile") || jobTitle.includes("webapplication") || jobTitle.includes("home page") || jobTitle.includes("wordpress") || jobTitle.includes("wp") 
+	|| jobTitle.includes("dashboard") || jobTitle.includes("sql") || jobTitle.includes("redesign") || jobTitle.includes("bootstrap") || (jobTitle.includes("site") && jobTitle.includes("migration") )
+	|| jobTitle.includes("supabase") || jobTitle.includes("js") || jobTitle.includes("restaurant") || jobTitle.includes("python") || jobTitle.includes("django") 
+	|| jobTitle.includes("typescript") ||jobTitle.includes("css") || jobTitle.includes("frontend") || jobTitle.includes("jwt") || jobTitle.includes("auth0") 
+	|| jobTitle.includes("cors") || jobTitle.includes("auth") || jobTitle.includes("theme")) {
 		if (jobDescription) {
-			jobDescription = jobDescription.replaceAll(/[\,\/\-\~\!\?–]/g, " ").replace(/\.+$/, "").replaceAll(/\s\s+/g, " ").toLowerCase();
+			if (jobDescription.includes("js"))
+				return [
+					{ preference: 1, title: "react", profile: "node-php", proposalId: "svelte-5", channel: 0, priority: 2 },
+					{ preference: 2, title: "fullstack", profile: "javascript", proposalId: "node-5", channel: 0, priority: 2 },
+				];
 			if (jobDescription.includes("bubble"))
 				return [
 					{ preference: 1, title: "shopify", profile: "ecommerce", proposalId: "bubble-1", channel: 0, priority: 1 },
@@ -556,17 +596,17 @@ window.getProposalTypes = function (jobTitle, jobDescription, checkBan) {
 				];
 			if (jobDescription.includes("webflow"))
 				return [
-					{ preference: 1, title: "webflow", profile: "webflow-2", proposalId: "webflow-8", channel: 0, priority: 3 },
-					{ preference: 2, title: "webflow", profile: "webflow", proposalId: "webflow-7", channel: 0, priority: 2 },
+					{ preference: 1, title: "webflow", profile: "webflow-2", proposalId: "webflow-8", channel: 0, priority: 1 },
+					{ preference: 2, title: "webflow", profile: "webflow", proposalId: "webflow-7", channel: 0, priority: 1 },
 				];
 			if (jobDescription.includes("shopify"))
 				return [
-					{ preference: 1, title: "shopify", profile: "ecommerce", proposalId: "shopify-8", channel: 0, priority: 3 },
-					{ preference: 2, title: "shopify", profile: "shopify", proposalId: "shopify-7", channel: 0, priority: 2 },
+					{ preference: 1, title: "shopify", profile: "ecommerce", proposalId: "shopify-8", channel: 0, priority: 1 },
+					{ preference: 2, title: "shopify", profile: "shopify", proposalId: "shopify-7", channel: 0, priority: 1 },
 				];
 			if (jobTitle.includes("commerce"))
 				return [
-					{ preference: 1, title: "ecommerce", profile: "shopify", proposalId: "ecommerce-8", channel: 0, priority: 2 },
+					{ preference: 1, title: "ecommerce", profile: "shopify", proposalId: "ecommerce-8", channel: 0, priority: 1 },
 					{ preference: 2, title: "ecommerce", profile: "ecommerce", proposalId: "ecommerce-7", channel: 0, priority: 1 },
 				];
 			if (jobDescription.includes("web3") || jobDescription.includes("web 3") || jobDescription.includes("blockchain") || jobDescription.includes("solidity")
@@ -586,6 +626,23 @@ window.getProposalTypes = function (jobTitle, jobDescription, checkBan) {
 				return [
 					{ preference: 1, title: "database", profile: "laravel-ruby", proposalId: "full-stack-1", channel: 0, priority: 3 },
 					{ preference: 2, title: "django", profile: "wp-django", proposalId: "django-flask-1", channel: 0, priority: 1 }
+				];
+
+			if (jobDescription.includes("android"))
+				return [
+					{ preference: 1, title: "android", profile: "frontend", proposalId: "android-1", channel: 0, priority: 1 },
+					{ preference: 2, title: "android", profile: "node-php", proposalId: "android-2", channel: 0, priority: 1 }
+				];
+
+			if (jobDescription.includes("flutter"))
+				return [
+					{ preference: 1, title: "android", profile: "wp-django", proposalId: "flutter-1", channel: 0, priority: 1 },
+					{ preference: 2, title: "android", profile: "frontend", proposalId: "flutter-2", channel: 0, priority: 1 }
+				];
+			if (jobDescription.includes("react native"))
+				return [
+					{ preference: 1, title: "android", profile: "laravel-ruby", proposalId: "react-native-1", channel: 0, priority: 1 },
+					{ preference: 2, title: "android", profile: "frontend-2", proposalId: "react-native-2", channel: 0, priority: 1 }
 				];
 			if (jobDescription.includes("wordpress") || jobDescription.includes("word press") || jobDescription.includes("woocommerce") || ` ${jobDescription} `.includes(" divi ") || jobDescription.includes("elementor"))
 				return [
@@ -810,7 +867,7 @@ window.submitProposal = async function (jobId, countryName, profile, proposalId,
 window.myProposals = {
 
 	"asp-1": `Hello 👋👋👋
-I am a highly skilled and experienced ASP.NET full-stack developer with 7+ years of experience. I have extensive experience in C# and ASP.NET. And also have experience in React/Vue/Node, Javascript/TypeScript, Web3, Tailwind CSS, REST API/GraphQL/WebSocket and so on.
+I am a highly skilled and experienced ASP.NET full-stack developer with 8+ years of experience. I have extensive experience in C# and ASP.NET. And also have experience in React/Vue/Node, Javascript/TypeScript, Web3, Tailwind CSS, REST API/GraphQL/WebSocket and so on.
 
 As a full-stack developer, I have extensive experience in Backend and frontend development, database management, cloud management, web hosting, SEO and so on. I am confident in my ability to be helpful for any kind of your work.
 
@@ -829,7 +886,7 @@ Thank you.`,
 
 	"full-stack-1": `Hello
 
-I am a highly skilled and experienced full-stack engineer with 7+ years of experience. I have extensive experience in PHP/Laravel/WordPress, Node/Express/Nest, React/Next/Gatsby, Vue/Nuxt, Javascript/TypeScript, Tailwind CSS, REST API/GraphQL/WebSocket and so on. I mastered in W3C standard web protocols and mobile/responsive/browser sensitive design.
+I am a highly skilled and experienced full-stack engineer with 8+ years of experience. I have extensive experience in PHP/Laravel/WordPress, Node/Express/Nest, React/Next/Gatsby, Vue/Nuxt, Javascript/TypeScript, Tailwind CSS, REST API/GraphQL/WebSocket and so on. I mastered in W3C standard web protocols and mobile/responsive/browser sensitive design.
 
 As a full-stack developer, I have extensive experience in Backend and frontend development, database management, cloud management, web hosting, SEO and so on. I am confident in my ability to be helpful for any kind of your work.
 
@@ -862,13 +919,15 @@ https://studio.manifold.xyz    (Vue + Tailwind CSS + Web3)
 https://dragonkart.com    (Vue + Nuxt + Node + Express + Tailwind CSS + Web3)
 
 I am a dedicated and self-motivated professional with a strong attention to detail. I am also a good communicator and can collaborate effectively with remote teams.
+
 I look forward to the opportunity to work with you.
+
 Thank you.`,
 
 
 	"java-spring-1": `Hello 👈👈👈
 
-I am a highly skilled and experienced Java full-stack developer with 7+ years of experience. I have extensive experience in Java, Kotlin, Spring Framework, Spring Boot, Hibernate, Maven/Gradle, CI/CD, Microservice, Kubernetes, Docker and so on. And also have experience in React/Next/Gatsby, Vue/Nuxt, Javascript/TypeScript, Node/Express/Nest, Web3, Tailwind CSS, REST API/GraphQL/WebSocket and so on.
+I am a highly skilled and experienced Java full-stack developer with 8+ years of experience. I have extensive experience in Java, Kotlin, Spring Framework, Spring Boot, Hibernate, Maven/Gradle, CI/CD, Microservice, Kubernetes, Docker and so on. And also have experience in React/Next/Gatsby, Vue/Nuxt, Javascript/TypeScript, Node/Express/Nest, Web3, Tailwind CSS, REST API/GraphQL/WebSocket and so on.
 
 As a full-stack developer, I have extensive experience in Backend and frontend development, database management, cloud management, web hosting, SEO and so on. I am confident in my ability to be helpful for any kind of your work.
 
@@ -883,12 +942,22 @@ I look forward to the opportunity to work with you.
 Thank you.`,
 
 
-	"laravel-1": `
-Hello, 👍👍
+	"laravel-1": `👍👍👍👍👍👍👍👍👍👍👍👍👍👍 Dear
+I have gone through your game plan blueprint and this calling fits within my width of finesse.
 
-I am a highly skilled and experienced PHP developer with over 7 years of expertise. My proficiency lies in PHP and Laravel, and I also possess extensive knowledge in React/Next/Gatsby, Vue/Nuxt, Javascript/TypeScript, Node/Express/Nest, Tailwind CSS, REST API/GraphQL/WebSocket, and more. I have mastered W3C standard web protocols and excel in mobile-responsive and browser-sensitive design.
+I would appreciate to come on board and start the exercise.
 
-As a full-stack developer, I have a wealth of experience in both backend and frontend development, including database management, cloud management, web hosting, SEO, and other related areas. I am confident in my ability to assist with any type of work you require.
+I am available to begin on the spot.
+
+Relevant Skills and Experience
+
+- 8 years of experience in Laravel Development
+
+- 5 star rated freelancer with over 390 completed projects
+
+- Got Preferred Freelancer award.
+
+- Fast communication and deliver on time.
 
 Allow me to highlight a few of my past projects:
 
@@ -919,7 +988,7 @@ Thank you.`,
 
 	"django-flask-1": `Hello 👋👋👋👋👋👋👋👋👋👋👋👋
 
-I am a highly skilled and experienced Python developer with 3+ years of experience. I have extensive experience in Python, Django and Flask. And also have experience in React/Next/Gatsby, Vue/Nuxt, Javascript/TypeScript, Node/Express/Nest, Tailwind CSS, REST API/GraphQL/WebSocket and so on. I mastered in W3C standard web protocols and mobile/responsive/browser sensitive design.
+I am a highly skilled and experienced Python developer with 8+ years of experience. I have extensive experience in Python, Django and Flask. And also have experience in React/Next/Gatsby, Vue/Nuxt, Javascript/TypeScript, Node/Express/Nest, Tailwind CSS, REST API/GraphQL/WebSocket and so on. I mastered in W3C standard web protocols and mobile/responsive/browser sensitive design.
 
 As a full-stack developer, I have extensive experience in Backend and frontend development, database management, cloud management, web hosting, SEO and so on. I am confident in my ability to be helpful for any kind of your work.
 
@@ -931,7 +1000,7 @@ Thank you.`,
 
 
 	"ruby-1": `Hello 👍👍👍👍👍👍👍👍👍👍👍👍👍👍
-I am an experienced Ruby on Rails developer with 3+ years of expertise. My skills extend to React/Next/Gatsby, Vue/Nuxt, JavaScript/TypeScript, Node/Express/Nest, Tailwind CSS, REST API/GraphQL/WebSocket, and more. I have a strong command of W3C web protocols and mobile-responsive design.
+I am an experienced Ruby on Rails developer with 5+ years of expertise. My skills extend to React/Next/Gatsby, Vue/Nuxt, JavaScript/TypeScript, Node/Express/Nest, Tailwind CSS, REST API/GraphQL/WebSocket, and more. I have a strong command of W3C web protocols and mobile-responsive design.
 
 With extensive experience in backend and frontend development, database management, cloud management, web hosting, and SEO, I am confident in my ability to assist with any project.
 
@@ -952,23 +1021,21 @@ Thank you`,
 
 	"wordpress-1": `Hello 👋👋👋👋👋👋👋👋👋👋👋👋👋👋👋
 
-I am a highly skilled and experienced WordPress developer with 7+ years of experience. I have extensive experience in PHP, WordPress and WooCommerce. And I am excellent in frontend development including HTML/CSS, Javascript, React/Vue and Responsive Design. I mastered in W3C standard web protocols and mobile/responsive/browser sensitive design. I am confident in my ability to be helpful for any kind of your work.
+I am a highly skilled and experienced WordPress developer with 8+ years of experience. I have extensive experience in PHP, WordPress and WooCommerce. And I am excellent in frontend development including HTML/CSS, Javascript, React/Vue and Responsive Design. I mastered in W3C standard web protocols and mobile/responsive/browser sensitive design. I am confident in my ability to be helpful for any kind of your work.
 
 As a full-stack developer, I have extensive experience in Backend and frontend development, database management, cloud management, web hosting, SEO and so on.
 
 Here are some of my past projects:
 
-https://abandonedempress.com    (WordPress + Bootstrap)
+http://sprott.carleton.ca    (WordPress + Bootstrap)
 
-https://uldfire.com    (WordPress + Divi)
+http://www.tribunemedia.com    (WordPress + Divi)
 
-https://4dmain.com    (WordPress + Elementor)
+https://www.whitehouse.gov    (WordPress + WooCommerce + Divi + Bootstrap)
 
-https://everythingcartagena.com    (WordPress + WooCommerce + Divi + Bootstrap)
+https://www.sonymusic.com    (WordPress + WooCommerce + Elementor)
 
-https://cojinmimos.com    (WordPress + WooCommerce + Elementor)
-
-https://www.mydoctorspick.com    (WordPress + WooCommerce + Elementor + Vue)
+https://www.katyperry.com    (WordPress + WooCommerce + Elementor + Vue)
 
 I am a dedicated and self-motivated professional with a strong attention to detail. I am also a good communicator and can collaborate effectively with remote teams.
 
@@ -1072,40 +1139,23 @@ Looking forward to potentially collaborating with you and delivering designs tha
 
 Best Regards`,
 
-	"laravel-2": `Hi ,👈👈👈👈👈👈👈👈👈👈👈👈
+	"laravel-2": `Hello there! I am an experienced freelancer. 
 
-As a highly skilled PHP developer with expertise in Laravel and Vue/React, I am confident in my ability to deliver exceptional results for your project. With years of experience in Laravel, I have successfully built and maintained robust, scalable, and secure web applications. Additionally, my proficiency in Vue and React enables me to create dynamic and interactive user interfaces that enhance the overall user experience.
+I understand that you are looking for a freelancer who can upgrade your existing Laravel 5 project to the latest Laravel version. 
 
-Here are some of my notable past projects:
+I have the necessary skills and experience to complete this project.
 
-Company/Service Portal
+My background lies in PHP development, specifically with Laravel. Additionally, I have extensive experience in upgrading Laravel projects to the latest version as well as knowledge of Laravel 5 and the latest version. 
 
-Website: pichler.pro
+This makes me the perfect fit for this job as it doesn't require any new features or improvements during the upgrade process.
 
-Technologies used: Laravel
+I am available 24/7 via freelancer messenger which makes it easy for us to communicate should you need any further information or clarification on any part of the project. 
 
-Betting Platform
-
-Website: bsmma.com
-
-Technologies used: Laravel, Vue
-
-Video Ad Management
-
-Website: openmedialogic.com
-
-Technologies used: Laravel, Bootstrap, Three.js
-
-I prioritize effective communication throughout the project, ensuring regular and transparent updates. I am responsive to feedback and committed to understanding and fulfilling your specific requirements.
-
-With my technical skills, attention to detail, and problem-solving abilities, I am confident that I am the ideal candidate for your project. I am eager to discuss the project in more detail and showcase how my expertise can contribute to its success.
-
-Thank you for considering my proposal. I look forward to the opportunity to work with you.
-
-Best regards`,
+We can get started on this project right away so please don't hesitate to reach out if you are interested!`,
 
 
 	"wordpress-2": `Hi.
+
 As an experienced WordPress developer with a strong background in various themes and plugins, I believe I possess the skills and expertise necessary to successfully complete your project.
 
 Throughout my career, I have worked extensively with WordPress, developing custom themes and implementing plugins to meet clients' unique requirements. I am well-versed in HTML, CSS, and PHP, allowing me to create visually stunning and functional websites.
@@ -1120,8 +1170,6 @@ https://www.basquiat.com    (WordPress + Divi)
 
 https://hyperkodes.com    (WordPress + Elementor)
 
-https://www.kcg-vet.com    (WordPress + WooCommerce + Elementor)
-
 I pride myself on effective communication and collaboration with clients. I am confident in my ability to meet your deadlines while maintaining the highest quality standards.
 
 I would be delighted to discuss your project further. Thank you for considering my proposal, and I look forward to the opportunity to collaborate with you.
@@ -1130,6 +1178,7 @@ Best regards`,
 
 
 	"blockchain-4": `Hello 🙏🙏🙏🙏🙏🙏🙏🙏🙏🙏🙏🙏
+
 As a highly skilled and experienced Web3/Blockchain developer, I am excited to offer my expertise for your project. With a solid background in Web3/Blockchain development, including Web3, Smart Contracts, Solidity, and NFTs, I am well-versed in the latest technologies and practices in this field. Additionally, I have extensive experience in modern Web/Web3 technologies such as React/Next/Gatsby, Vue/Nuxt, JavaScript/TypeScript, Node/Express/Nest, Tailwind CSS, REST API/GraphQL/WebSocket, and more.
 
 As a full-stack developer, I possess a wealth of experience in both backend and frontend development, database management, cloud management, web hosting, SEO, and other related areas. I am confident in my ability to provide valuable assistance for any kind of work you require.
@@ -1338,7 +1387,7 @@ Thank you for considering my proposal.`,
 
 	"blockchain-5": `Hi. As an experienced individual blockchain developer, I have the skills and expertise required to successfully complete your project.
 
-With 3 years of experience in blockchain technology, including decentralized applications (dApps), smart contracts, and blockchain protocols like Ethereum and Hyperledger, I am well-versed in the latest industry trends and best practices.
+With 5 years of experience in blockchain technology, including decentralized applications (dApps), smart contracts, and blockchain protocols like Ethereum and Hyperledger, I am well-versed in the latest industry trends and best practices.
 
 My services include smart contract development, dApp development, tokenization and ICO development, blockchain integration, smart contract auditing, and blockchain consulting.
 
@@ -1358,7 +1407,7 @@ Thank you for considering my proposal. I am excited about the opportunity to wor
 
 
 	"full-stack-5": `Hi. ✨✨✨✨✨✨✨✨✨
-I am a skilled Full Stack Developer with 7+ years of experience and a proven track record of delivering successful web development projects.
+I am a skilled Full Stack Developer with 8+ years of experience and a proven track record of delivering successful web development projects.
 
 Here's why I believe I am the right fit for your project:
 
@@ -1379,7 +1428,7 @@ Best regards`,
 
 	"ecommerce-7": `Hello 👋👋👋👋👋👋👋👋👋👋
 
-I am a highly skilled and experienced Ecommerce developer with 5+ years of experience. I have extensive experience in Shopify and Ecommerce Website development. And I am excellent in frontend development including HTML/CSS, Javascript, React/Vue and Responsive Design. I mastered in W3C standard web protocols and mobile/responsive/browser sensitive design.
+I am a highly skilled and experienced Ecommerce developer with 8+ years of experience. I have extensive experience in Shopify and Ecommerce Website development. And I am excellent in frontend development including HTML/CSS, Javascript, React/Vue and Responsive Design. I mastered in W3C standard web protocols and mobile/responsive/browser sensitive design.
 
 As a full-stack developer, I have extensive experience in Backend and frontend development, database management, cloud management, web hosting, SEO and so on. I am confident in my ability to be helpful for any kind of your work.
 
@@ -1418,7 +1467,7 @@ Thank you.`,
 
 	"frontend-7": `Hello ✨✨✨✨✨
 
-I am a highly skilled and experienced frontend developer with 7+ years of experience. I have extensive experience in React/Next/Gatsby, Vue/Nuxt, Javascript/TypeScript, Node/Express/Nest, Tailwind CSS, REST API/GraphQL/WebSocket, SEO and so on.
+I am a highly skilled and experienced frontend developer with 8+ years of experience. I have extensive experience in React/Next/Gatsby, Vue/Nuxt, Javascript/TypeScript, Node/Express/Nest, Tailwind CSS, REST API/GraphQL/WebSocket, SEO and so on.
 
 I mastered in W3C standard web protocols and mobile/responsive/browser sensitive design.
 
@@ -1467,7 +1516,7 @@ Thank you.`,
 
 	"shopify-7": `Hello 👋👋👋👋👋👋👋👋👋👋
 
-I am a highly skilled and experienced Shopify developer with 4+ years of experience. I have extensive experience in Shopify/Shopify Plus development, API integration, theme customization, Response design, and so on. And I am excellent in frontend development including HTML/CSS, Javascript, React/Vue and Responsive Design. I mastered in W3C standard web protocols and mobile/responsive/browser sensitive design.
+I am a highly skilled and experienced Shopify developer with 8+ years of experience. I have extensive experience in Shopify/Shopify Plus development, API integration, theme customization, Response design, and so on. And I am excellent in frontend development including HTML/CSS, Javascript, React/Vue and Responsive Design. I mastered in W3C standard web protocols and mobile/responsive/browser sensitive design.
 
 As a full-stack developer, I have extensive experience in Backend and frontend development, database management, cloud management, web hosting, SEO and so on. I am confident in my ability to be helpful for any kind of your work.
 
@@ -1521,7 +1570,7 @@ Thank you.`,
 	"frontend-8": `Hi.👋👋👋👋👋👋👋👋👋👋👋👋
 As an experienced individual frontend developer, I possess the skills and expertise required to successfully complete your project.
 
-With 6+ years of experience, I am proficient in HTML, CSS, JavaScript, and modern frontend frameworks like React and Vue.
+With 8+ years of experience, I am proficient in HTML, CSS, JavaScript, and modern frontend frameworks like React and Vue.
 
 My services include UI/UX design implementation, frontend development for dynamic and interactive web applications, and mobile optimization for seamless user experiences on smartphones and tablets.
 
@@ -1666,7 +1715,7 @@ Thank you for considering my bid. I am eager to discuss further details and demo
 
 As an experienced expert in this field, I have the skills and knowledge necessary to successfully complete your project.
 
-With 5+ years of experience in web & desktop automation, I am proficient in using tools like Selenium WebDriver, Puppeteer, AutoIt, UiPath and Power Automate.
+With 8+ years of experience in web & desktop automation, I am proficient in using tools like Selenium WebDriver, Puppeteer, AutoIt, UiPath and Power Automate.
 
 My services include web scraping, automated testing, task automation, desktop application automation, process automation, and custom script development.
 
@@ -1712,7 +1761,7 @@ Implementation of robust security measures
 
 Thorough testing and meticulous debugging
 
-Experience: With extensive experience spanning 7 years in backend development, I have successfully completed numerous projects, delivering efficient and reliable solutions. I possess comprehensive knowledge of various databases, including MySQL, PostgreSQL, MongoDB, and more.
+Experience: With extensive experience spanning 8 years in backend development, I have successfully completed numerous projects, delivering efficient and reliable solutions. I possess comprehensive knowledge of various databases, including MySQL, PostgreSQL, MongoDB, and more.
 
 Approach:
 
@@ -1748,7 +1797,7 @@ My Skill Set:
 
 Experience:
 
-With a solid background spanning over 7 years in backend development, I have successfully completed numerous projects, consistently delivering efficient and reliable solutions. I possess comprehensive knowledge of various databases, including MySQL, PostgreSQL, MongoDB, and more.
+With a solid background spanning over 8 years in backend development, I have successfully completed numerous projects, consistently delivering efficient and reliable solutions. I possess comprehensive knowledge of various databases, including MySQL, PostgreSQL, MongoDB, and more.
 
 My Approach:
 
@@ -1792,7 +1841,7 @@ Strong focus on robust security measures
 
 Thorough testing and meticulous debugging
 
-With over 7 years of experience in backend development, I have successfully completed numerous projects, consistently delivering efficient and reliable solutions. I possess comprehensive knowledge of various databases, including MySQL, PostgreSQL, MongoDB, and more.
+With over 8 years of experience in backend development, I have successfully completed numerous projects, consistently delivering efficient and reliable solutions. I possess comprehensive knowledge of various databases, including MySQL, PostgreSQL, MongoDB, and more.
 
 My approach to projects involves the following steps:
 
@@ -1844,7 +1893,7 @@ Overall, my experience with the React-Next-Gatsby - MERN stack has equipped me w
 
 Looking forward to hearing from you.
 
-Best,` ,
+Best` ,
 
 	"web-development-1" : `Dear Hiring Manager,
 
@@ -1888,7 +1937,7 @@ Project 2: https://www.danielgrindrod.com/
 
 With my background in Bubble.io development and my passion for delivering outstanding results, I'm confident that I can contribute to your project's success. 
 
-Here's what you can expect from me:
+👋 Here's what you can expect from me: 👋
 
 Expertise in Bubble.io: I am well-versed in utilizing the powerful features of Bubble.io to create intuitive and visually appealing web applications.
 
@@ -1930,5 +1979,298 @@ I would love to learn more about your project and discuss how I can contribute t
 
 Looking forward to hearing from you!
 
-Best regards`
+Best regards`,
+	
+	"angular-1": `Hello! 👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍
+
+I hope this message finds you well. As an experienced Angular developer with a strong track record of delivering high-quality web applications, I am excited to offer my skills and expertise to your project.
+
+About Me:
+
+I have been working with Angular for 8 years, and I am well-versed in Angular 2+ versions.
+
+I have successfully completed many projects, ranging from small-scale applications to complex enterprise solutions. 
+
+My proficiency in HTML, CSS, and JavaScript allows me to create responsive and visually appealing user interfaces.
+
+What I Offer:
+
+Angular Expertise: I have a deep understanding of Angular's architecture, components, services, and routing. 
+
+I can efficiently develop scalable and maintainable applications using best practices.
+
+Responsive Design: I prioritize creating user-friendly interfaces that adapt seamlessly across different devices and screen sizes.
+
+API Integration: I am experienced in integrating APIs to fetch and display data, ensuring smooth communication between the frontend and backend.
+
+Testing and Debugging: I am meticulous in testing and debugging to ensure the reliability and stability of the applications I develop.
+
+Collaboration: I am a strong team player and believe in effective communication and collaboration throughout the project lifecycle.
+
+Previous Work:
+
+https://geex-arts.com
+
+https://www.cuelr.com
+
+https://www.bega-us.com
+
+You can find examples of my previous work in my portfolio, showcasing the range of projects I have successfully delivered. 
+
+I am confident that my skills and experience make me an ideal candidate for your Angular development needs.
+
+Availability and Rate:
+
+I am available 40 hours per week to dedicate to your project.
+
+Let's Get Started:
+
+I am excited to discuss your project further and provide a tailored solution to meet your requirements. 
+
+Please feel free to reach out to me with any questions or to schedule a call. 
+
+Thank you for considering my bid, and I look forward to the opportunity of working together!
+
+Best regards`,
+	
+	"angular-2": `Dear, 🤝
+
+I am writing to express my interest in your project for an Angular developer. 
+
+With 8 years of experience in web development and a strong focus on Angular, I am confident in my ability to deliver high-quality solutions that meet your requirements.
+
+Here's why I believe I am the right fit for your project:
+
+1. Expertise in Angular: 
+   
+	I have a deep understanding of Angular framework, including AngularJS and Angular 2+ versions. 
+
+	I have successfully developed and deployed several Angular applications, ranging from small-scale projects to large enterprise-level applications.
+
+2. Strong Front-end Development Skills: 
+	
+	Alongside Angular, I possess a solid foundation in HTML, CSS, and JavaScript. 
+
+	This allows me to create visually appealing and responsive user interfaces that enhance the overall user experience.
+
+3. Past Project Example: 
+
+	https://www.ettitude.com
+	
+	https://saltykswim.com
+
+	https://anneklein.com
+	
+	In my previous project, I worked with a client to develop a complex web application using Angular. 
+ 
+    The application involved real-time data visualization, user authentication, and integration with external APIs. 
+  
+    I successfully delivered the project within the agreed timeline and received positive feedback from the client for my attention to detail and problem-solving skills.
+
+4. Efficient Problem-Solving: 
+	
+	I am skilled at analyzing complex requirements and translating them into efficient and scalable Angular code. 
+
+    I am confident in my ability to troubleshoot issues and provide effective solutions in a timely manner.
+
+5. Collaborative Approach: 
+	
+	I believe in open communication and collaboration throughout the project lifecycle. 
+
+I am dedicated to understanding your vision and requirements, and I will actively seek your feedback to ensure the final product aligns with your expectations.
+
+I am excited about the opportunity to work on your project and contribute my skills to its success. 
+
+I can dedicate 40h/week to your project. 
+
+Thank you for considering my bid. I look forward to the possibility of working together.
+
+Best regards`,
+	
+	"android-1": `Dear Client, 🤝
+
+I hope this proposal finds you well. I am excited to submit my bid for your Android app development project. With over 8 years of experience in Android development, I am confident in my ability to deliver a top-notch solution that meets your needs.
+
+Here's what I bring to the table:
+
+1. **Technical Expertise**: 
+
+	I have a strong command of Android development tools, including Java and Kotlin programming languages, Android Studio, and the Android SDK. 
+
+	I am also well-versed in using third-party libraries and APIs to enhance app functionality and user experience.
+
+2. **UI/UX Design**: 
+
+	My previous projects:
+
+	https://play.google.com/store/apps/details?id=com.huper.delivery
+
+	https://play.google.com/store/apps/details?id=com.jaumo.casual
+
+	https://apps.apple.com/us/app/navahang/id1068437034?platform=iphone
+	
+	I believe in creating visually appealing and user-friendly interfaces. 
+
+	I will closely collaborate with you to understand your design preferences and ensure that the app reflects your brand identity while providing a seamless and intuitive experience for users.
+
+3. **Backend Integration**: 
+
+	I have experience working with RESTful APIs and can seamlessly integrate your app with backend systems to handle data storage, user authentication, and other server-side functionalities. 
+
+	I am capable of implementing robust data synchronization techniques to optimize performance and ensure data integrity.
+
+4. **Testing and Quality Assurance**: 
+
+	To deliver a robust and bug-free app, I will conduct comprehensive testing throughout the development process. 
+
+	I employ both manual and automated testing techniques to identify and rectify any issues, guaranteeing a smooth and reliable user experience.
+
+5. **Timely Communication and Collaboration**: 
+
+	I understand the importance of effective communication and will provide regular progress updates. 
+
+	I welcome your feedback at every stage of the project and am committed to delivering work that aligns with your vision. Your satisfaction is my utmost priority.
+
+In conclusion, I am excited to work on your Android app development project and contribute my skills and expertise to bring your idea to life. 
+
+My dedication to quality, attention to detail, and commitment to meeting deadlines will ensure a successful outcome.
+
+I look forward to discussing further details of your project. 
+
+Please feel free to reach out with any questions or to schedule a call. Thank you for considering my bid.
+
+Best regards`,
+
+	"android-2": `Dear Client,
+
+I am a skilled Android developer offering my expertise for your project. 
+
+With 7 years of experience, I am confident in delivering a high-quality app that meets your requirements. My focus areas include:
+
+Technical Expertise: Proficient in Java and Kotlin, I have a strong understanding of Android development tools and libraries.
+
+UI/UX Design: I prioritize creating visually appealing and user-friendly interfaces to enhance the app's experience.
+
+Backend Integration: Experienced in integrating RESTful APIs to handle data storage and server-side functionalities.
+
+Testing and Quality Assurance: I conduct thorough testing to ensure a bug-free and reliable app.
+
+I am committed to timely communication, collaboration, and delivering excellent results. 
+
+Previous projects:
+
+https://play.google.com/store/apps/details?id=com.mason.wooplus
+
+https://play.google.com/store/apps/details?id=com.navahang.app
+
+I look forward to discussing your project further.`,
+	
+	"flutter-1": `Having a passion for developing software solutions and development experience of more than 6 years, feels very happy and fulfilled if I am able to make someones life easier by even 0.001% with my solutions.
+
+✓ Android Application Development
+
+✓ Hybrid Application Development Android and IOS
+
+✓ Website Development
+
+✓ Backend and API architecture development
+
+✓ Desktop Software Development
+
+Reason for choosing me:
+
+1.100% Satisfaction.
+
+2. High Quality work.
+
+3. Reasonable Price.
+
+4. Delivery before deadline.
+
+Programming languages and technology:
+
+✓ JAVA
+
+✓ Flutter
+
+✓ PHP
+
+✓ JS
+
+✓ Node.JS
+
+✓ React JS
+
+✓ MEAN Stack
+
+✓ Android
+
+✓ Google Maps and Geo location
+
+✓ Google Firebase
+
+✓ iOS`,
+
+	"flutter-2": `I am a full time Mobile/Web Developer with over 10 years of experience Mobile apps development. Expertise area in Retail, Multimedia, Healthcare, Education, Learning system, Advertising, Employee attendance system, and many more.
+
+I like to discover my potential and enhances my skills, working with new business idea with new technologies and creative environment to bringing innovative idea to reality.
+
+By outsourcing, you just made the right decision to make your business grow. I help you to grow with sleek, phenomenal and rich Android applications with platform compatibility.
+
+SERVICES:
+
+Mobile App Development
+
+Android App Development
+
+Android and iOS Flutter Apps
+
+Mobile App Designing
+
+I ensure best quality delivery. 
+
+If you are looking for fully dedicated experienced developer Mobile and Web development, would love to hear from you.`,
+
+	"react-native-1": `Hey Great evening, We have perused the short subtleties on your work. 
+
+I see you have been looking for a freelancer who has experience with "I need to create the database and the backend of this template in React Native.". 
+
+I am expert in Database. I will do this professionally as you want.
+ 
+It's been a long time since We have been dealing with freelancer.com, and We have 6 years of involvement doing comparable positions. 
+
+We would demand you check my profile audit activities and criticism of projects connected with those abilities.
+
+We pride ourselves in the diversity of the expertise that we offer and our impeccable record with satisfied clients so far. 
+
+Much of this success is owed to some of the most rigorous and effective methodologies that we at SoasTech employ in our engineering process to ensure the best results.
+
+Timings: 9 am - 9 pm Eastern Time
+
+My Portfolio:https://www.freelancer.com/u/Feriver
+
+Kindly start the talk so we can examine it exhaustively and we will go on from that point.
+
+Much obliged! SoasTech`,
+
+	"react-native-2": `Greetings,
+I am happy to express that I can fulfill all your requirements in the description. 
+
+As you can see I rank amongst 2% among 60+ million freelancers. I have 10+ years of experience in Full Stack Web/App Development and have expertise in React.JS, JavaScript, HTML/CSS, React Native, and Web Design. I am confident I can be the perfect candidate for this project.
+
+I want to know the following before starting the project.
+
+1. Can you please explain more about the nature of your project and business?
+
+2. Are there any specific features/modules that you would like to add?
+
+3. Will there be any third-party integrations required?
+
+4. Any scope document that you would like to share?
+
+5. Will you be providing the mockups?
+
+NOTE: Kindly initiate the chat or hop on a call so we can discuss each aspect of this project thoroughly.
+
+I am happy to discuss and assist you with this project's technical aspects.`
 }

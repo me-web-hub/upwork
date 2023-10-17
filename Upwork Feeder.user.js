@@ -21,7 +21,7 @@
 
 const SERVER_URL = "http://146.19.170.48";
 // const SERVER_URL = "http://web.valloon.me";
-const CHANNELS = 4;
+const CHANNELS = 1;
 
 
 (async function() {
